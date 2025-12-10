@@ -1,0 +1,6 @@
+# Directorios de compilación y dependencias
+/node_modules
+/dist
+
+# Archivos de entorno y credenciales
+.env
