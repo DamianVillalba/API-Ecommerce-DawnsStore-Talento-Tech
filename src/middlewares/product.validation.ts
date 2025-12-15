@@ -69,9 +69,7 @@ export const createProductValidationRules = [
 		.notEmpty()
 		.withMessage("La descripción es obligatoria.")
 		.isLength({ min: 10 })
-		.withMessage("La descripción debe tener al menos 10 caracteres.")
-		.isLength({ max: 500 })
-		.withMessage("La descripción no puede exceder los 500 caracteres."),
+		.withMessage("La descripción debe tener al menos 10 caracteres."),
 
 	// Categoria (Requerido, no vacío, cadena)
 	body("category")
