@@ -10,19 +10,25 @@ export const errorHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	//Manejo de Errores Personalizados (HttpError)
-	if (err instanceof HttpError) {
-		// Si es una de nuestras clases, usamos el statusCode y el mensaje definido
-		return res.status(err.statusCode).json({
-			status: err.statusCode,
-			message: err.message,
-		});
-	}
+    // Definir la respuesta base
+    const responseBody: any = {
+        status: 500,
+        message: "Error interno del servidor.",
+    };
 
-	// Manejo de Errores 500 (Errores inesperados del servidor)
-	console.error("Error interno inesperado:", err);
-	return res.status(500).json({
-		status: 500,
-		message: "Error interno del servidor.",
-	});
+    // Manejo de Errores Personalizados (HttpError)
+    if (err instanceof HttpError) {
+        responseBody.status = err.statusCode;
+        responseBody.message = err.message;
+
+        if (responseBody.status === 400 && (err as any).errors) {
+            responseBody.errors = (err as any).errors;
+        }
+
+        return res.status(responseBody.status).json(responseBody);
+    }
+
+    // Manejo de Errores 500 (Errores inesperados del servidor)
+    console.error("Error interno inesperado:", err);
+    return res.status(500).json(responseBody);
 };

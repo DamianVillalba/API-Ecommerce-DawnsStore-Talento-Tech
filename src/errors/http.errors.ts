@@ -41,3 +41,14 @@ export class ForbiddenError extends HttpError {
 		Object.setPrototypeOf(this, ForbiddenError.prototype);
 	}
 }
+
+
+/**
+ * Error 401 UnauthorizedError (Acceso denegado).
+ */
+export class UnauthorizedError extends HttpError {
+	constructor(message: string = "Acceso denegado.") {
+		super(401, message);
+		Object.setPrototypeOf(this, UnauthorizedError.prototype);
+	}
+}

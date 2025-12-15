@@ -90,10 +90,8 @@ export const createProductValidationRules = [
 	body("description").blacklist("<>"),
 ];
 
-// Reglas para ACTUALIZAR un producto (PUT)
+// Reglas para ACTUALIZAR un producto
 export const updateProductValidationRules = [
-	// En PUT, todos los campos son opcionales, pero si se envían, deben ser válidos.
-
 	body("name")
 		.optional() // Permite que el campo no se envíe
 		.trim()

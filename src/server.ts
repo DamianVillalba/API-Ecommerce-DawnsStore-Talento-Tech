@@ -4,6 +4,7 @@ dotenv.config();
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import productRoutes from './routes/product.routes'; 
+import authRoutes from './routes/auth.routes'
 import { db } from './config/firebase'; 
 import { errorHandler } from './middlewares/error.middleware';
 
@@ -25,6 +26,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 //Routes
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/product', productRoutes);
 
 //Middleware Routes
