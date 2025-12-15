@@ -26,8 +26,8 @@ router.get('/:id', getProductById);
 
 // Endpoint: POST /api/product
 router.post('/', verifyToken, createProductValidationRules, validate, createProduct);
-// Endpoint: PUT /api/v1/product/:id
-router.put('/:id', verifyToken, updateProductValidationRules, validate, updateProduct);
+// Endpoint: PATCH /api/v1/product/:id
+router.patch('/:id', verifyToken, updateProductValidationRules, validate, updateProduct);
 // Endpoint: DELETE /api/v1/product/:id
 router.delete('/:id', verifyToken, deleteProduct);
 
