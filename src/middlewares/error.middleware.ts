@@ -5,7 +5,7 @@ import { HttpError } from "../errors/http.errors";
  * Middleware para manejar todos los errores lanzados en la aplicación.
  */
 export const errorHandler = (
-	err: Error, // Captura el error lanzado (throw)
+	err: Error, 
 	req: Request,
 	res: Response,
 	next: NextFunction

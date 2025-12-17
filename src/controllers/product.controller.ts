@@ -53,7 +53,6 @@ export const updateProduct = async (
 		const { id } = req.params;
 		const productData: Partial<Product> = req.body || {};
 		if (Object.keys(productData).length === 0) {
-			// Podés usar tu BadRequestError
 			return next(
 				new BadRequestError(
 					"Debe enviar al menos un campo para actualizar el producto."

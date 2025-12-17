@@ -15,7 +15,6 @@ export const validate = (req: Request, res: Response, next: NextFunction) => {
 		message: err.msg,
 	}));
 
-	// Usamos el error personalizado 400 (BadRequestError)
 	const validationError = new BadRequestError(
 		"Errores de validación. Verifique los campos enviados."
 	);
@@ -91,7 +90,7 @@ export const createProductValidationRules = [
 // Reglas para ACTUALIZAR un producto
 export const updateProductValidationRules = [
 	body("name")
-		.optional() // Permite que el campo no se envíe
+		.optional()
 		.trim()
 		.notEmpty()
 		.withMessage("El nombre no puede ser vacío.")
@@ -134,7 +133,6 @@ export const updateProductValidationRules = [
 		.notEmpty()
 		.withMessage("La categoria es obligatoria."),
 
-	// URL de la imagen (Requerido, no vacío, cadena)
 	body("img_url")
 		.optional()
 		.trim()

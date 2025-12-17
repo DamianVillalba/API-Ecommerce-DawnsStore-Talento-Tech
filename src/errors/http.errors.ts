@@ -1,6 +1,3 @@
-/**
- * Clase base para todos los errores de la API que deben llevar un codigo de estado HTTP.
- */
 export class HttpError extends Error {
 	public statusCode: number;
 
@@ -12,9 +9,6 @@ export class HttpError extends Error {
 	}
 }
 
-/**
- * Error 404 Not Found (Recurso no encontrado).
- */
 export class NotFoundError extends HttpError {
 	constructor(message: string = "Recurso no encontrado.") {
 		super(404, message);
@@ -22,9 +16,6 @@ export class NotFoundError extends HttpError {
 	}
 }
 
-/**
- * Error 400 Bad Request (Solicitud mal formada).
- */
 export class BadRequestError extends HttpError {
 	constructor(message: string = "La solicitud es inválida.") {
 		super(400, message);
@@ -32,9 +23,6 @@ export class BadRequestError extends HttpError {
 	}
 }
 
-/**
- * Error 403 Forbidden (Acceso prohibido).
- */
 export class ForbiddenError extends HttpError {
 	constructor(message: string = "Acceso denegado.") {
 		super(403, message);
@@ -42,10 +30,6 @@ export class ForbiddenError extends HttpError {
 	}
 }
 
-
-/**
- * Error 401 UnauthorizedError (Acceso denegado).
- */
 export class UnauthorizedError extends HttpError {
 	constructor(message: string = "Acceso denegado.") {
 		super(401, message);
