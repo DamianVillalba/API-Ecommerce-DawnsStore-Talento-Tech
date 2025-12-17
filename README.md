@@ -109,7 +109,7 @@ npm start
 
 | Método | Endpoint | Descripción |
 |------|---------|------------|
-| POST | `/api/auth/login` | Inicia sesión y devuelve un **Bearer Token** |
+| POST | `/api/v1/auth/login` | Inicia sesión y devuelve un **Bearer Token** |
 
 ---
 
@@ -117,10 +117,10 @@ npm start
 
 | Método | Endpoint | Protegido | Descripción |
 |------|---------|-----------|------------|
-| GET | `/api/products` | ❌ | Obtiene todos los productos |
-| GET | `/api/products/:id` | ❌ | Obtiene un producto por ID |
-| POST | `/api/products/create` | ✅ | Crea un nuevo producto |
-| DELETE | `/api/products/:id` | ✅ | Elimina un producto |
+| GET | `/api/v1/product` | ❌ | Obtiene todos los productos |
+| GET | `/api/v1/product/:id` | ❌ | Obtiene un producto por ID |
+| POST | `/api/v1/product` | ✅ | Crea un nuevo producto |
+| DELETE | `/api/v1/product/:id` | ✅ | Elimina un producto |
 
 #### 🔑 Autorización
 
