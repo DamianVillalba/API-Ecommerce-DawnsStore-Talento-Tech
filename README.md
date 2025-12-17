@@ -144,7 +144,6 @@ Authorization: Bearer <tu_token>
 ## 🔗 Enlaces Útiles
 
 - 🚀 **Deploy Producción:** https://api-ecommerce-dawns-store-talento-t.vercel.app/
-- 💻 **Repositorio GitHub:** https://github.com/DamianVillalba
 
 ---
 
