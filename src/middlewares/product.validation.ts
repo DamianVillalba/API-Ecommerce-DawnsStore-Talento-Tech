@@ -2,38 +2,51 @@ import { body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { BadRequestError } from "../errors/http.errors";
 
+export interface FieldValidationError {
+	field: string;
+	message: string;
+}
+export class ValidationError extends BadRequestError {
+	public readonly errors: FieldValidationError[];
+
+	constructor(
+		errors: FieldValidationError[],
+		message = "Errores de validación. Verifique los campos enviados."
+	) {
+		super(message);
+		this.errors = errors;
+
+		Object.setPrototypeOf(this, ValidationError.prototype);
+	}
+}
+
 // Middleware centralizado de manejo de errores de validación
 export const validate = (req: Request, res: Response, next: NextFunction) => {
-	const errors = validationResult(req);
+	const result = validationResult(req);
 
-	if (errors.isEmpty()) {
+	if (result.isEmpty()) {
 		return next();
 	}
 
-	const extractedErrors = errors.array().map((err) => ({
+	const errors = result.array().map((err) => ({
 		field: err.type === "field" ? err.path : "unknown",
 		message: err.msg,
 	}));
 
-	const validationError = new BadRequestError(
-		"Errores de validación. Verifique los campos enviados."
-	);
-	(validationError as any).errors = extractedErrors; // Adjuntamos los detalles
-
 	// Propagamos el error para que sea capturado por el error.middleware.ts
-	return next(validationError);
+	return next(new ValidationError(errors));
 };
-
 
 // Reglas para CREAR un producto (POST)
 export const createProductValidationRules = [
 	// Nombre (Requerido, no vacío, cadena)
 	body("name")
+		.isString()
+		.withMessage("El nombre debe ser una cadena.")
+		.bail()
 		.trim()
 		.notEmpty()
-		.withMessage("El nombre es obligatorio.")
-		.isLength({ max: 100 })
-		.withMessage("El nombre no puede exceder los 100 caracteres."),
+		.withMessage("El nombre no puede ser vacío."),
 
 	// Precio (Requerido, numérico, > 0, sanitización)
 	body("price")
@@ -81,7 +94,7 @@ export const createProductValidationRules = [
 		.trim()
 		.notEmpty()
 		.withMessage("La categoria es obligatoria."),
-	
+
 	//Evita inyección XSS básica
 	body("name").blacklist("<>"),
 	body("description").blacklist("<>"),
@@ -91,12 +104,13 @@ export const createProductValidationRules = [
 export const updateProductValidationRules = [
 	body("name")
 		.optional()
+		.isString()
+		.withMessage("El nombre debe ser una cadena.")
+		.bail()
 		.trim()
 		.notEmpty()
-		.withMessage("El nombre no puede ser vacío.")
-		.isString()
-		.withMessage("El nombre debe ser una cadena."),
-
+		.withMessage("El nombre no puede ser vacío."),
+		
 	body("price")
 		.optional()
 		.isNumeric()
