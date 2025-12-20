@@ -12,6 +12,7 @@ import {
 	query,
 	where,
 } from "firebase/firestore";
+import { CreateProductDTO, UpdateProductDTO } from "../schemas/product.schema";
 
 const productCollection = collection(db, "products");
 
@@ -44,7 +45,7 @@ export const findById = async (id: string): Promise<Product> => {
 };
 
 export const saveProduct = async (
-	product: Omit<Product, string>
+	product: CreateProductDTO
 ): Promise<Product> => {
 	const newDocRef = await addDoc(productCollection, product);
 	return {
@@ -55,7 +56,7 @@ export const saveProduct = async (
 
 export const updateProduct = async (
 	id: string,
-	updates: Partial<Product>
+	updates: UpdateProductDTO
 ): Promise<Product> => {
 	// Corroboro si existe producto con el findById
 	const existingProduct = await findById(id);

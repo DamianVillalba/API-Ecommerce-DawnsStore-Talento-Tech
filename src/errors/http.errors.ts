@@ -36,3 +36,22 @@ export class UnauthorizedError extends HttpError {
 		Object.setPrototypeOf(this, UnauthorizedError.prototype);
 	}
 }
+
+//CUSTOM
+export interface FieldValidationError {
+	field: string;
+	message: string;
+}
+export class ValidationError extends BadRequestError {
+	public readonly errors: FieldValidationError[];
+
+	constructor(
+		errors: FieldValidationError[],
+		message = "Errores de validación. Verifique los campos enviados."
+	) {
+		super(message);
+		this.errors = errors;
+
+		Object.setPrototypeOf(this, ValidationError.prototype);
+	}
+}

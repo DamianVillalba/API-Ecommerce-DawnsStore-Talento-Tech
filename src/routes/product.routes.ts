@@ -7,11 +7,10 @@ import {
     deleteProduct
 } from '../controllers/product.controller';
 import {
-    createProductValidationRules,
-    updateProductValidationRules,
     validate
-} from '../middlewares/product.validation';
+} from '../middlewares/zod.middleware';
 import { verifyToken } from '../middlewares/auth.middleware';
+import { CreateProductSchema, UpdateProductSchema } from '../schemas/product.schema';
 
 const router = Router();
 
@@ -98,7 +97,7 @@ router.get('/:id', getProductById);
  *       401:
  *         description: No autorizado
  */
-router.post('/', verifyToken, createProductValidationRules, validate, createProduct);
+router.post('/', verifyToken, validate(CreateProductSchema), createProduct);
 // Endpoint: PATCH /api/v1/product/:id
 /**
  * @openapi
@@ -139,7 +138,7 @@ router.post('/', verifyToken, createProductValidationRules, validate, createProd
  *       404:
  *         description: Producto no encontrado
  */
-router.patch('/:id', verifyToken, updateProductValidationRules, validate, updateProduct);
+router.patch('/:id', verifyToken, validate(UpdateProductSchema), updateProduct);
 // Endpoint: DELETE /api/v1/product/:id
 /**
  * @openapi
@@ -160,8 +159,6 @@ router.patch('/:id', verifyToken, updateProductValidationRules, validate, update
  *         description: Producto eliminado exitosamente
  *       401:
  *         description: No autorizado
- *       404:
- *         description: Producto no encontrado
  */
 router.delete('/:id', verifyToken, deleteProduct);
 

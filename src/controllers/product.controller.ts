@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as productService from "../services/product.service";
 import { Product } from "../types/product";
 import { BadRequestError } from "../errors/http.errors";
+import { CreateProductDTO, UpdateProductDTO } from "../schemas/product.schema";
 
 export const getAllProducts = async (
 	req: Request,
@@ -36,8 +37,8 @@ export const createProduct = async (
 	next: NextFunction
 ) => {
 	try {
-		const productData: Omit<Product, "id"> = req.body;
-		const products = await productService.create(productData);
+		const dto = req.body as CreateProductDTO;
+		const products = await productService.create(dto);
 		res.status(201).json(products);
 	} catch (error) {
 		next(error);
@@ -51,15 +52,8 @@ export const updateProduct = async (
 ) => {
 	try {
 		const { id } = req.params;
-		const productData: Partial<Product> = req.body || {};
-		if (Object.keys(productData).length === 0) {
-			return next(
-				new BadRequestError(
-					"Debe enviar al menos un campo para actualizar el producto."
-				)
-			);
-		}
-		const products = await productService.updateById(id, productData);
+		const dto = req.body as UpdateProductDTO;
+		const products = await productService.updateById(id, dto);
 		res.status(200).json(products);
 	} catch (error) {
 		next(error);
